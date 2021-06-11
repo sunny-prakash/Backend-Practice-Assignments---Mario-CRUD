@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const { marioModel, validateMario } = require("./models/marioChar");
+const marioModel = require("./models/marioChar");
 
 // Middlewares
 app.use(express.urlencoded());
@@ -52,7 +52,6 @@ app.patch("/mario/:id", async (req, res) => {
 });
 
 app.delete("/mario/:id", async (req, res) => {
-    const { name, weight } = req.body;
     const mario = await marioModel.findByIdAndDelete(req.params.id);
     if (!mario) return res.status(400).send({ message: error.message });
 

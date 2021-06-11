@@ -15,14 +15,13 @@ const mariochar = mongoose.Schema({
 
 const marioModel = mongoose.model("mariochar", mariochar);
 
-function validateMario(mario) {
-    const schema = Joi.object({
-        name: Joi.string().required(),
-        weight: Joi.number().required(),
-    });
+// function validateMario(mario) {
+//     const schema = Joi.object({
+//         name: Joi.string().required(),
+//         weight: Joi.number().required(),
+//     });
 
-    return schema.validate(mario);
-}
+//     return schema.validate(mario);
+// }
 
-module.exports.marioModel = marioModel;
-module.exports.validateMario = validateMario;
+module.exports = marioModel;
