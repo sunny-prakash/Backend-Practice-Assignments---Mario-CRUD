@@ -34,4 +34,29 @@ app.post("/mario", async (req, res) => {
     res.status(201).send(mario);
 });
 
+app.patch("/mario/:id", async (req, res) => {
+    const { name, weight } = req.body;
+    const mario = await marioModel.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: {
+                name: name,
+                weight: weight,
+            },
+        },
+        { new: true }
+    );
+    if (!mario) return res.status(400).send({ message: error.message });
+
+    res.status(200).send(mario);
+});
+
+app.delete("/mario/:id", async (req, res) => {
+    const { name, weight } = req.body;
+    const mario = await marioModel.findByIdAndDelete(req.params.id);
+    if (!mario) return res.status(400).send({ message: error.message });
+
+    res.status(200).send({ message: "character deleted" });
+});
+
 module.exports = app;
