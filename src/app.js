@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const marioModel = require("./models/marioChar");
+const { marioModel, validateMario } = require("./models/marioChar");
 
 // Middlewares
 app.use(express.urlencoded());
