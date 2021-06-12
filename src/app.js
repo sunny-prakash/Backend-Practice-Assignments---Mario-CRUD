@@ -39,17 +39,30 @@ app.post("/mario", async (req, res) => {
 
 app.patch("/mario/:id", async (req, res) => {
     const { name, weight } = req.body;
+    let mario;
     try {
-        const mario = await marioModel.findByIdAndUpdate(
-            req.params.id,
-            {
-                $set: {
-                    name: name,
-                    weight: weight,
+        if (name) {
+            mario = await marioModel.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: {
+                        name: name,
+                    },
                 },
-            },
-            { new: true }
-        );
+                { new: true }
+            );
+        }
+        if (weight) {
+            mario = await marioModel.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: {
+                        weight: weight,
+                    },
+                },
+                { new: true }
+            );
+        }
 
         res.status(200).send(mario);
     } catch (error) {
