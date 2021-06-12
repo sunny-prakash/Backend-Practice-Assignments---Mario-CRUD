@@ -18,9 +18,12 @@ app.get("/mario", async (req, res) => {
 });
 
 app.get("/mario/:id", async (req, res) => {
-    const mario = await marioModel.findById(req.params.id);
-    if (!mario) return res.status(400).send({ message: error.message });
-    res.send(mario);
+    try {
+        const mario = await marioModel.findById(req.params.id);
+        res.send(mario);
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
 });
 
 app.post("/mario", async (req, res) => {
@@ -36,26 +39,31 @@ app.post("/mario", async (req, res) => {
 
 app.patch("/mario/:id", async (req, res) => {
     const { name, weight } = req.body;
-    const mario = await marioModel.findByIdAndUpdate(
-        req.params.id,
-        {
-            $set: {
-                name: name,
-                weight: weight,
+    try {
+        const mario = await marioModel.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    name: name,
+                    weight: weight,
+                },
             },
-        },
-        { new: true }
-    );
-    if (!mario) return res.status(400).send({ message: error.message });
+            { new: true }
+        );
 
-    res.status(200).send(mario);
+        res.status(200).send(mario);
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
 });
 
 app.delete("/mario/:id", async (req, res) => {
-    const mario = await marioModel.findByIdAndDelete(req.params.id);
-    if (!mario) return res.status(400).send({ message: error.message });
-
-    res.status(200).send({ message: "character deleted" });
+    try {
+        const mario = await marioModel.findByIdAndDelete(req.params.id);
+        res.status(200).send({ message: "character deleted" });
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
 });
 
 module.exports = app;
